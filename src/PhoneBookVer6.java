@@ -69,7 +69,7 @@ public class PhoneBookVer6 {
 				break;
 			}
 			catch(NullPointerException e) {
-				e.printStackTrace();
+				System.out.println("NullPointerException 예외발생");
 			}
 			catch(Exception e) {
 				e.printStackTrace();
