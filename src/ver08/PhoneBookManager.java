@@ -1,20 +1,25 @@
-package ver07;
+package ver08;
 
-import ver07.PhoneInfo;
+import ver08.PhoneInfo;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+
 /*
-멤버메소드명 
-메뉴출력 : printMenu()
-입력 : dataInput()
-검색 : dataSearch()
-삭제 : dataDelete()
-주소록전체출력 : dataAllShow() 
+컬렉션 기반으로 변경후 인스턴스를 저장하기 위해 IO(입출력)을 적용하자.
+ObjectInputStream, ObjectOutputStream 클래스를 기반으로 제작한다.
+파일의 저장은 프로그램을 종료하는 시점에 이루어져야 하고, 
+프로그램 시작 직후 전체정보를 조회하면 기존에 입력된 정보들이 출력되어야 한다.
  */
 public class PhoneBookManager {
 
@@ -128,7 +133,7 @@ public class PhoneBookManager {
 				}
 			}
 		} catch (MenuSelectException e) {
-			e.printStackTrace();
+			System.out.println("예외발생 : 1~5사이의 숫자를 입력하세요.");
 		}
 	}
 
@@ -158,23 +163,27 @@ public class PhoneBookManager {
 	}
 
 	public void dataDelete() throws InputMismatchException, NullPointerException {
-
+		
+		boolean deleteTrue = false;
+		
 		System.out.println("데이터 삭제를 시작합니다.");
 		System.out.print("이름:");
 		String deleteName = scan.next();
 
 		Iterator<PhoneInfo> itr = hashSet.iterator();
 		while (itr.hasNext()) {
-
 			if (deleteName.equals(itr.next().name)) {
+				deleteTrue = true;
 				itr.remove();
 				System.out.println("데이터 삭제가 완료되었습니다.");
 			} else {
-				System.out.println("삭제할 데이터가 없습니다.");
+				deleteTrue = false;
 			}
 		}
+		if (deleteTrue == false) {
+			System.out.println("삭제할 데이터가 없습니다.");
+		}
 		System.out.println();
-
 	}
 
 	public void dataAllShow() {
@@ -184,6 +193,44 @@ public class PhoneBookManager {
 			itr.next().showPhoneInfo();
 		}
 		System.out.println();
+	}
+	
+	public void saveFriendInfo() {
+		try {
+			ObjectOutputStream out =  
+					new ObjectOutputStream(new FileOutputStream("src/ver08/PhoneBook.obj"));
+			
+			Iterator<PhoneInfo> itr = hashSet.iterator();
+			while (itr.hasNext()) {
+				out.writeObject(itr.next());
+			}
+		}
+		catch (Exception e) {
+			System.out.println("예외발생");
+		}
+	}
+	
+	public void showFriendInfo() throws ClassNotFoundException, IOException {
+			
+	
+			ObjectInputStream in = 
+					new ObjectInputStream(new FileInputStream("src/ver08/PhoneBook.obj"));
+			
+			while(true) {
+				//저장된 파일에서 정보 1개 읽어오기
+				try {
+					PhoneInfo phoneInfo = (PhoneInfo)in.readObject();
+					//만약 읽어올 정보(객체)가 더이상 없다면 루프 탈출
+					if(phoneInfo==null) 
+						break;
+					//읽어온 객체를 통해 정보출력
+					phoneInfo.showPhoneInfo();
+				} catch (IOException e) {
 
+				}
+			}
+		
 	}
 }
+	
+	

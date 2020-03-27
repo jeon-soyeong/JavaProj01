@@ -1,4 +1,4 @@
-package ver07;
+package ver08;
 
 class PhoneCompanyInfo extends PhoneInfo {//회사
 	String companyName;

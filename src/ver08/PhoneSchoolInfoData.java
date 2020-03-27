@@ -1,4 +1,4 @@
-package ver07;
+package ver08;
 
 class PhoneSchoolInfo extends PhoneInfo{//동창
 	
