@@ -211,9 +211,8 @@ public class PhoneBookManager {
 	}
 	
 	public void showFriendInfo() throws ClassNotFoundException, IOException {
-			
-	
-			ObjectInputStream in = 
+
+		ObjectInputStream in = 
 					new ObjectInputStream(new FileInputStream("src/ver08/PhoneBook.obj"));
 			
 			while(true) {
@@ -229,7 +228,6 @@ public class PhoneBookManager {
 
 				}
 			}
-		
 	}
 }
 	
