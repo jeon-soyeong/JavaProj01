@@ -197,8 +197,7 @@ public class PhoneBookManager {
 	
 	public void saveFriendInfo() {
 		try {
-			ObjectOutputStream out =  
-					new ObjectOutputStream(new FileOutputStream("src/ver08/PhoneBook.obj"));
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("src/ver08/PhoneBook.obj"));
 			
 			Iterator<PhoneInfo> itr = hashSet.iterator();
 			while (itr.hasNext()) {
@@ -212,8 +211,7 @@ public class PhoneBookManager {
 	
 	public void showFriendInfo() throws ClassNotFoundException, IOException {
 
-		ObjectInputStream in = 
-					new ObjectInputStream(new FileInputStream("src/ver08/PhoneBook.obj"));
+		ObjectInputStream in = new ObjectInputStream(new FileInputStream("src/ver08/PhoneBook.obj"));
 			
 			while(true) {
 				//저장된 파일에서 정보 1개 읽어오기
